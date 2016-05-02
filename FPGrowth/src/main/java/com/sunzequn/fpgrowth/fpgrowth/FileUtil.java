@@ -1,4 +1,4 @@
-package com.sunzequn.fpgrowth;
+package com.sunzequn.fpgrowth.fpgrowth;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,11 +8,10 @@ import java.util.List;
 /**
  * Created by sunzequn on 2016/5/2.
  */
-public class Util {
+public class FileUtil {
 
     /**
      * Read the input data to find frequent itemsets.
-
      *
      * @param filePath
      * @param separator
