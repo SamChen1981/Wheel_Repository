@@ -1,5 +1,6 @@
 package com.sunzequn.fpgrowth.fpgrowth;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,18 +10,40 @@ import java.util.Map;
  */
 public class FPGrowth {
 
-    private static FPTree fpTree;
     private static List<List<Integer>> itemSets;
     private static Map<Integer, Integer> itemsFrequency;
-    private static double minSupportThreshold;
 
     public static void preprocess(String filePath, String separator) {
         itemSets = FileUtil.readDataFromFile(filePath, separator);
         itemsFrequency = computeItemsFrequency(itemSets);
     }
 
-    public static void buildFPTree(List<List<Integer>> itemSets, Map<Integer, Integer> itemsFrequency, double minSupportThreshold) {
-        fpTree = new FPTree();
+    public static FPTree buildFPTree(double minSupportThreshold) {
+        FPTree fpTree = new FPTree();
+        fpTree.build(itemSets, itemsFrequency, minSupportThreshold);
+        return fpTree;
+    }
+
+    public static List<List<Integer>> findFrequentItemset(FPTree tree, List<Integer> suffix){
+        int minSupportCount = tree.getMinSupportCount();
+        System.out.println(minSupportCount);
+        return findFrequentItemset(tree, suffix, minSupportCount);
+    }
+
+    public static List<List<Integer>> findFrequentItemset(FPTree tree, List<Integer> suffix, int minSupportCount){
+        List<List<Integer>> frequentItemset = new ArrayList<>();
+        for (Integer item : tree.getItems().keySet()) {
+            int support = tree.getSupportForItem(item);
+            if (support >= minSupportCount && !suffix.contains(item)) {
+                List<Integer> found = new ArrayList<Integer>();
+                found.addAll(suffix);
+                found.add(item);
+                frequentItemset.add(found);
+                FPTree conditionalTree = tree.buildConditionalFPTreeOfItem(item, minSupportCount);
+                frequentItemset.addAll(findFrequentItemset(conditionalTree, found, minSupportCount));
+            }
+        }
+        return frequentItemset;
     }
 
     /**
@@ -29,7 +52,7 @@ public class FPGrowth {
      * @param itemSets set of items
      * @return the frequency of items
      */
-    private static Map<Integer, Integer> computeItemsFrequency(List<List<Integer>> itemSets) {
+    public static Map<Integer, Integer> computeItemsFrequency(List<List<Integer>> itemSets) {
         Map<Integer, Integer> itemsFrequency = new HashMap<>();
         for (List<Integer> itemSet : itemSets) {
             for (Integer item : itemSet) {

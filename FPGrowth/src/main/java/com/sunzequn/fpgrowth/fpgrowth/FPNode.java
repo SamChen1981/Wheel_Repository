@@ -37,7 +37,7 @@ public class FPNode {
         return count;
     }
 
-    public void insertCount(long count) {
+    public void addCount(long count) {
         this.count += count;
     }
 
@@ -49,18 +49,19 @@ public class FPNode {
         this.parent = parent;
     }
 
-    public void insertChild(FPNode child) {
+    public void addChild(FPNode child) {
         if (!children.containsKey(child.getItem())) {
             children.put(child.getItem(), child);
             child.setParent(this);
         }
     }
 
-    public boolean hasChild(int item) {
-        return children.containsKey(item);
+    public void removeChild(FPNode node) {
+        this.children.remove(node.getItem());
+        node.parent = null;
     }
 
-    public FPNode getChild(long item) {
+    public FPNode getChild(int item) {
         return children.get(item);
     }
 
@@ -79,4 +80,16 @@ public class FPNode {
     public boolean hasNeighbour() {
         return !(getNeighbour() == null);
     }
+
+    public String toString() {
+        String string = "";
+        if (children != null){
+            for (Integer integer : children.keySet()) {
+                string = string + integer + " " ;
+            }
+        }
+        return "id:" + item + ";count:" + count + ";children:"
+                + string.trim();
+    }
+
 }

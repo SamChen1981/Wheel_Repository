@@ -10,10 +10,9 @@ import java.util.List;
  */
 public class UtilTest {
 
-    private String dataFile = "src/main/resources/data";
-
     @Test
     public void readDataFromFileTest() {
+        String dataFile = "src/main/resources/data";
         List<List<Integer>> itemIdSets = FileUtil.readDataFromFile(dataFile, " ");
         System.out.println(itemIdSets != null ? itemIdSets.size() : 0);
     }
