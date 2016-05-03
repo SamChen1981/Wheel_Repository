@@ -1,6 +1,7 @@
 # IDEA
 .idea
 target
+*.iml
 
 # Mac
 .DS_Store
