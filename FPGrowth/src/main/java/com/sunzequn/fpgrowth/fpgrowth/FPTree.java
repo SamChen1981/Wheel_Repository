@@ -36,7 +36,7 @@ public class FPTree {
      * @param minSupportThreshold
      */
     public void build(List<List<Integer>> itemSets, Map<Integer, Integer> itemsFrequency, double minSupportThreshold) {
-        minSupportCount = (int) (itemSets.size() * minSupportThreshold);
+        minSupportCount = (int) Math.ceil(itemSets.size() * minSupportThreshold);
         insertItemSets(itemSets, itemsFrequency, minSupportCount);
     }
 
@@ -99,7 +99,7 @@ public class FPTree {
      * @param node
      */
     public void updateNeighbour(FPNode node) {
-        FPNode header = headerTable.get(node.getItem());
+        FPNode header = getHeaderTable().get(node.getItem());
         //insert the node to header table if it is not existed
         if (header == null) {
             headerTable.put(node.getItem(), node);

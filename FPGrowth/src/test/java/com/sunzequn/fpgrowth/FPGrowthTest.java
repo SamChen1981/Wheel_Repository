@@ -19,11 +19,11 @@ public class FPGrowthTest {
 
     @Test
     public void buildTest(){
-        FPGrowth.buildFPTree(0.2);
+        FPGrowth.buildFPTree(0.5);
     }
 
     @Test
     public void findFrequentItemsetTest(){
-        System.out.println(FPGrowth.findFrequentItemset(FPGrowth.buildFPTree(0), new ArrayList<>(), 2));
+        System.out.println(FPGrowth.findFrequentItemset(FPGrowth.buildFPTree(0.51), new ArrayList<>(), 2));
     }
 }
